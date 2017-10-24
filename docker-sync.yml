@@ -1,0 +1,17 @@
+version: 2
+syncs:
+  django_start_app_volume:
+    src: './'
+    sync_strategy: 'unison'
+    sync_host_ip: '127.0.0.1'
+
+    sync_host_port: 11859
+    sync_excludes_type: 'Name'
+
+    sync_excludes: ['docker*', 'docker*yml', 'Dockerfile', '.DS_Store', '.git*', '.idea', '.docker-sync', 'init.sh', '.docker/template/*', '*.iml' ]
+    #sync_args: '-v'
+
+    watch_args: '-v'
+
+    watch_excludes: ['.*/.git']
+    watch_strategy: 'fswatch'

@@ -1,0 +1,6 @@
+# docker コンテナ内で仕様する環境変数
+
+MYSQL_USER=user
+MYSQL_PASSWORD=password
+MYSQL_DATABASE=app_development
+MYSQL_HOST=db

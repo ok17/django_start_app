@@ -1,0 +1,46 @@
+version: '2'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:80 --settings=base_app_django.local_settings
+    container_name: django_start_app
+    hostname: django_start_app
+    volumes:
+     - django_start_app_volume:/app:nocopy
+    volumes_from:
+      - data
+    ports:
+      - 80:80
+    depends_on:
+      - db
+    env_file:
+      - ./.docker/.docker_env
+    tty: true
+    stdin_open: true
+  db:
+    image: mysql:latest
+    container_name: django_start_db
+    hostname: django_start_db
+    volumes:
+      - ./.docker/db/myconf.d/:/etc/mysql/conf.d/
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=app_development
+      - MYSQL_ROOT_PASSWORD=root
+
+  data:
+    image: busybox
+    container_name: django_start_data
+    volumes:
+      - django_start_db_volume:/var/lib/mysql:rw
+
+volumes:
+  django_start_db_volume:
+    driver: local
+  django_start_app_volume:
+    external: true
